@@ -2,7 +2,7 @@ import { useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createHashRouter, RouterProvider } from "react-router-dom";
 import Layout from "./components/Layout/Layout";
 import Home from "./components/Home/Home";
 import Products from "./components/Products/Products";
@@ -29,7 +29,7 @@ import ForgetPassword from "./components/ForgetPassword/ForgetPassword";
 import VerifyCode from "./components/VerifyCode/VerifyCode";
 import ResetPassword from "./components/ResetPassword/ResetPassword";
 let client = new QueryClient();
-const router = createBrowserRouter([
+const router = createHashRouter([
   {
     path: "/",
     element: <Layout />,
@@ -46,6 +46,7 @@ const router = createBrowserRouter([
         path: "products",
         element: (
           <ProtectedRoute>
+            {" "}
             <Products />
           </ProtectedRoute>
         ),
@@ -70,6 +71,7 @@ const router = createBrowserRouter([
         path: "categories",
         element: (
           <ProtectedRoute>
+            {" "}
             <Categories />
           </ProtectedRoute>
         ),
@@ -78,6 +80,7 @@ const router = createBrowserRouter([
         path: "productDetails/:id",
         element: (
           <ProtectedRoute>
+            {" "}
             <ProductDetails />
           </ProtectedRoute>
         ),
@@ -86,6 +89,7 @@ const router = createBrowserRouter([
         path: "wishlist",
         element: (
           <ProtectedRoute>
+            {" "}
             <WishList />
           </ProtectedRoute>
         ),
@@ -106,15 +110,14 @@ const router = createBrowserRouter([
           </ProtectedRoute>
         ),
       },
+      { path: "/ForgetPassword", element: <ForgetPassword /> },
+      { path: "/VerifyCode", element: <VerifyCode /> },
+      { path: "/ResetPassword", element: <ResetPassword /> },
+      { path: "login", element: <Login /> },
+      { path: "register", element: <Register /> },
+      { path: "*", element: <Notfound /> },
     ],
   },
-  // ✅ These are NOT inside children
-  { path: "/login", element: <Login /> },
-  { path: "/register", element: <Register /> },
-  { path: "/ForgetPassword", element: <ForgetPassword /> },
-  { path: "/VerifyCode", element: <VerifyCode /> },
-  { path: "/ResetPassword", element: <ResetPassword /> },
-  { path: "*", element: <Notfound /> }, 
 ]);
 
 function App() {
