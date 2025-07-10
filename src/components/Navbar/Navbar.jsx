@@ -8,7 +8,6 @@ export default function Navbar() {
   const navigate = useNavigate();
   const { token, setToken } = useContext(theContext);
   const { cartCounter } = useContext(cart);
-
   const [menuOpen, setMenuOpen] = useState(false);
 
   function logout() {
@@ -25,11 +24,13 @@ export default function Navbar() {
   return (
     <nav className="bg-gray-50 fixed top-0 left-0 right-0 z-50 shadow-md">
       <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+        {/* Logo */}
         <div className="flex items-center space-x-2 font-bold text-2xl">
           <i className="fa-solid fa-cart-shopping text-3xl text-green-600"></i>
           <span className="text-gray-800">Fresh Cart</span>
         </div>
 
+        {/* Desktop nav */}
         <ul className="hidden lg:flex items-center gap-6 text-gray-700 font-medium">
           {token && (
             <>
@@ -67,7 +68,9 @@ export default function Navbar() {
           )}
         </ul>
 
+        {/* Right section */}
         <div className="flex items-center gap-4">
+          {/* Cart icon */}
           {token && (
             <NavLink to="/cart" className="relative">
               <i className="fa-solid fa-cart-shopping text-2xl sm:text-3xl text-gray-700"></i>
@@ -77,7 +80,8 @@ export default function Navbar() {
             </NavLink>
           )}
 
-          <div className="hidden lg:flex gap-3 items-center text-gray-700">
+          {/* Always visible Login/Register or Logout */}
+          <div className="flex gap-3 items-center text-gray-700">
             {token ? (
               <button onClick={logout} className="hover:text-green-600">
                 Logout
@@ -94,110 +98,87 @@ export default function Navbar() {
             )}
           </div>
 
-          <button
-            onClick={() => setMenuOpen(!menuOpen)}
-            className="lg:hidden text-2xl text-gray-700"
-          >
-            {menuOpen ? <FaTimes /> : <FaBars />}
-          </button>
+          {/* Hamburger icon visible on small screens only if logged in */}
+          {token && (
+            <button
+              onClick={() => setMenuOpen(!menuOpen)}
+              className="lg:hidden text-2xl text-gray-700"
+            >
+              {menuOpen ? <FaTimes /> : <FaBars />}
+            </button>
+          )}
         </div>
       </div>
 
-      {menuOpen && (
+      {/* Mobile nav */}
+      {token && menuOpen && (
         <div className="lg:hidden bg-gray-100 px-4 py-4 space-y-4 text-gray-700 font-medium">
           <ul className="flex flex-col gap-4">
-            {token && (
-              <>
-                <li>
-                  <NavLink
-                    to="/"
-                    className={navLinkClass}
-                    onClick={() => setMenuOpen(false)}
-                  >
-                    Home
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink
-                    to="/cart"
-                    className={navLinkClass}
-                    onClick={() => setMenuOpen(false)}
-                  >
-                    Cart
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink
-                    to="/wishlist"
-                    className={navLinkClass}
-                    onClick={() => setMenuOpen(false)}
-                  >
-                    Wish List
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink
-                    to="/products"
-                    className={navLinkClass}
-                    onClick={() => setMenuOpen(false)}
-                  >
-                    Products
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink
-                    to="/categories"
-                    className={navLinkClass}
-                    onClick={() => setMenuOpen(false)}
-                  >
-                    Categories
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink
-                    to="/brands"
-                    className={navLinkClass}
-                    onClick={() => setMenuOpen(false)}
-                  >
-                    Brands
-                  </NavLink>
-                </li>
-              </>
-            )}
-            {!token ? (
-              <>
-                <li>
-                  <NavLink
-                    to="/login"
-                    className={navLinkClass}
-                    onClick={() => setMenuOpen(false)}
-                  >
-                    Login
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink
-                    to="/register"
-                    className={navLinkClass}
-                    onClick={() => setMenuOpen(false)}
-                  >
-                    Register
-                  </NavLink>
-                </li>
-              </>
-            ) : (
-              <li>
-                <button
-                  onClick={() => {
-                    logout();
-                    setMenuOpen(false);
-                  }}
-                  className="hover:text-green-600"
-                >
-                  Logout
-                </button>
-              </li>
-            )}
+            <li>
+              <NavLink
+                to="/"
+                className={navLinkClass}
+                onClick={() => setMenuOpen(false)}
+              >
+                Home
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/cart"
+                className={navLinkClass}
+                onClick={() => setMenuOpen(false)}
+              >
+                Cart
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/wishlist"
+                className={navLinkClass}
+                onClick={() => setMenuOpen(false)}
+              >
+                Wish List
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/products"
+                className={navLinkClass}
+                onClick={() => setMenuOpen(false)}
+              >
+                Products
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/categories"
+                className={navLinkClass}
+                onClick={() => setMenuOpen(false)}
+              >
+                Categories
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/brands"
+                className={navLinkClass}
+                onClick={() => setMenuOpen(false)}
+              >
+                Brands
+              </NavLink>
+            </li>
+            <li>
+              <button
+                onClick={() => {
+                  logout();
+                  setMenuOpen(false);
+                }}
+                className="hover:text-green-600"
+              >
+                Logout
+              </button>
+            </li>
           </ul>
         </div>
       )}
