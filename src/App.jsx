@@ -46,7 +46,6 @@ const router = createBrowserRouter([
         path: "products",
         element: (
           <ProtectedRoute>
-            {" "}
             <Products />
           </ProtectedRoute>
         ),
@@ -71,7 +70,6 @@ const router = createBrowserRouter([
         path: "categories",
         element: (
           <ProtectedRoute>
-            {" "}
             <Categories />
           </ProtectedRoute>
         ),
@@ -80,7 +78,6 @@ const router = createBrowserRouter([
         path: "productDetails/:id",
         element: (
           <ProtectedRoute>
-            {" "}
             <ProductDetails />
           </ProtectedRoute>
         ),
@@ -89,7 +86,6 @@ const router = createBrowserRouter([
         path: "wishlist",
         element: (
           <ProtectedRoute>
-            {" "}
             <WishList />
           </ProtectedRoute>
         ),
@@ -110,14 +106,15 @@ const router = createBrowserRouter([
           </ProtectedRoute>
         ),
       },
-      { path: "/ForgetPassword", element: <ForgetPassword /> },
-      { path: "/VerifyCode", element: <VerifyCode /> },
-      { path: "/ResetPassword", element: <ResetPassword /> },
-      { path: "*", element: <Notfound /> },
-      { path: "login", element: <Login /> },
-      { path: "register", element: <Register /> },
     ],
   },
+  // ✅ These are NOT inside children
+  { path: "/login", element: <Login /> },
+  { path: "/register", element: <Register /> },
+  { path: "/ForgetPassword", element: <ForgetPassword /> },
+  { path: "/VerifyCode", element: <VerifyCode /> },
+  { path: "/ResetPassword", element: <ResetPassword /> },
+  { path: "*", element: <Notfound /> }, 
 ]);
 
 function App() {
