@@ -31,7 +31,7 @@ import ResetPassword from "./components/ResetPassword/ResetPassword";
 let client = new QueryClient();
 const router = createBrowserRouter([
   {
-    path: "",
+    path: "/",
     element: <Layout />,
     children: [
       {
