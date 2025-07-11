@@ -10,6 +10,7 @@ export default function Brands() {
   const [brands, setBrands] = useState([]);
   const [specificBrand, setSpecificBrand] = useState([]);
   const [openModal, setOpenModal] = useState(false);
+  const [brandId, setBrandId] = useState("");
   let { getUserCart } = useContext(cart);
 
   useEffect(() => {
@@ -63,8 +64,8 @@ export default function Brands() {
           <div
             key={brand._id}
             onClick={() => {
-              setOpenModal(true);
               getSpecificBrand(brand._id);
+              setOpenModal(true);
             }}
             className="bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md hover:shadow-green-700 cursor-pointer transition"
           >
@@ -84,7 +85,7 @@ export default function Brands() {
 
       <Modal
         show={openModal}
-        onClose={() => setOpenModal(false)}
+        onClose={() => {setOpenModal(false), setSpecificBrand([])}}
         className="px-4 sm:px-10 lg:px-80 w-full inset-0"
       >
         <Modal.Header />

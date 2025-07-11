@@ -134,9 +134,9 @@ export default function Products() {
               <button
                 onClick={() => {
                   addProductToCart(product.id);
-                  deleteItem(product.id); 
+                  deleteItem(product.id);
                 }}
-                className="group-hover:translate-y-0 group-hover:text-white group-hover:bg-green-700 border border-green-700 text-green-700 w-full mt-3 py-2 rounded transition-all duration-300 translate-y-[200%]"
+                className="translate-y-0 group-hover:translate-y-0 group-hover:text-white group-hover:bg-green-700 border border-green-700 text-green-700 w-full mt-3 py-2 rounded transition-all duration-300  md:translate-y-[200%] lg:translate-y-[200%] md:group-hover:translate-y-0"
               >
                 Add to cart
               </button>

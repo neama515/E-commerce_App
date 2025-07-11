@@ -52,7 +52,24 @@ export default function Categories() {
         setSubLoading(false);
       });
   }
-
+  async function getSpecificSubCat(subCatId) {
+    axios
+      .get(`https://ecommerce.routemisr.com/api/v1/categories/${subCatId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      })
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.error("Error", err.response?.data || err);
+        if (err.response?.data?.errors) {
+          console.error("Validation Errors:", err.response.data.errors);
+        }
+      });
+  }
   useEffect(() => {
     getUserCart();
     getCategories();
@@ -70,9 +87,18 @@ export default function Categories() {
             <a
               key={ob._id}
               href="#sec"
-              onClick={() => {
-                setCatName(ob.name);
-                getSubCat(ob._id);
+              onClick={(e) => {
+                e.preventDefault(); 
+                if (typeof setCatName === "function") setCatName(ob.name);
+                if (typeof getSubCat === "function") getSubCat(ob._id);
+
+               
+                setTimeout(() => {
+                  const secElement = document.getElementById("sec");
+                  if (secElement) {
+                    secElement.scrollIntoView({ behavior: "smooth" });
+                  }
+                }, 100); 
               }}
               className="bg-white border h-96 hover:shadow-md hover:shadow-green-700 border-gray-200 rounded-lg shadow-sm flex flex-col"
             >

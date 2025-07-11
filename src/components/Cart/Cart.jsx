@@ -17,30 +17,37 @@ export default function Cart() {
     deleteItem,
     setCartCounter,
   } = useContext(cart);
-
   async function updateCartQty(id, count) {
     let flag = await updateCart(id, count);
+    console.log("====================================");
+    console.log(flag);
+    console.log("====================================");
     if (flag) {
-      toast.success("Product updated successfully", {
+      toast.success("Product added successfully ", {
         position: "top-right",
       });
     } else {
-      toast.error("Can't update product now", {
+      toast.error("Can't add product now", {
         position: "top-right",
       });
     }
   }
-
   async function clearCart() {
     return axios
-      .delete(`https://ecommerce.routemisr.com/api/v1/cart`, {
-        headers: {
-          token: token,
-        },
-      })
+      .delete(
+        `https://ecommerce.routemisr.com/api/v1/cart`,
+
+        {
+          headers: {
+            token: token,
+          },
+        }
+      )
       .then((res) => {
+        console.log(res);
         setCartData({ products: [], totalCartPrice: 0 });
         setCartCounter(0);
+
         return true;
       })
       .catch((error) => {
@@ -48,7 +55,6 @@ export default function Cart() {
         return false;
       });
   }
-
   useEffect(() => {
     getUserCart();
   }, []);

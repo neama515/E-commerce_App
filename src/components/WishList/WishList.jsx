@@ -69,7 +69,7 @@ export default function WishList() {
                       alt={product.title}
                     />
                   </td>
-                  <td className="px-4 sm:px-6 py-4  font-semibold text-gray-900 dark:text-white">
+                  <td className="px-4 sm:px-6 py-4 sm:text-sm  font-semibold text-gray-900 dark:text-white">
                     {product.title}
                   </td>
                   <td className="px-4 sm:px-6 py-4">
