@@ -62,7 +62,6 @@ const router = createHashRouter([
         path: "categories",
         element: (
           <ProtectedRoute>
-            {" "}
             <Categories />
           </ProtectedRoute>
         ),
@@ -75,7 +74,6 @@ const router = createHashRouter([
         path: "wishlist",
         element: (
           <ProtectedRoute>
-            {" "}
             <WishList />
           </ProtectedRoute>
         ),
@@ -114,7 +112,6 @@ function App() {
       <CartContext>
         <WishListContext>
           <QueryClientProvider client={client}>
-            {" "}
             <RouterProvider router={router}></RouterProvider>
             <Toaster />
           </QueryClientProvider>
