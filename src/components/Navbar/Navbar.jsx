@@ -24,13 +24,13 @@ export default function Navbar() {
   return (
     <nav className="bg-gray-50 fixed top-0 left-0 right-0 z-50 shadow-md">
       <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-        {/* Logo */}
-        <div className="flex items-center space-x-2 font-bold text-2xl">
+        <NavLink to="/" className="flex items-center space-x-2 font-bold text-2xl">
           <i className="fa-solid fa-cart-shopping text-3xl text-green-600"></i>
-          <span className="text-gray-800">Fresh Cart</span>
-        </div>
+          <span >Fresh Cart</span>
+        
+          </NavLink>
+       
 
-        {/* Desktop nav */}
         <ul className="hidden lg:flex items-center gap-6 text-gray-700 font-medium">
           {token && (
             <>
@@ -68,9 +68,7 @@ export default function Navbar() {
           )}
         </ul>
 
-        {/* Right section */}
         <div className="flex items-center gap-4">
-          {/* Cart icon */}
           {token && (
             <NavLink to="/cart" className="relative">
               <i className="fa-solid fa-cart-shopping text-2xl sm:text-3xl text-gray-700"></i>
@@ -80,25 +78,26 @@ export default function Navbar() {
             </NavLink>
           )}
 
-          {/* Always visible Login/Register or Logout */}
-          <div className="flex gap-3 items-center text-gray-700">
+          <div className="flex gap-1 items-center text-gray-700">
             {token ? (
               <button onClick={logout} className="hover:text-green-600">
                 Logout
               </button>
             ) : (
               <>
+                <NavLink to="/" className={navLinkClass}>
+                  Home |
+                </NavLink>
                 <NavLink to="/login" className={navLinkClass}>
-                  Login
+                  Login |
                 </NavLink>
                 <NavLink to="/register" className={navLinkClass}>
-                  Register
+                Register
                 </NavLink>
               </>
             )}
           </div>
 
-          {/* Hamburger icon visible on small screens only if logged in */}
           {token && (
             <button
               onClick={() => setMenuOpen(!menuOpen)}
@@ -108,9 +107,7 @@ export default function Navbar() {
             </button>
           )}
         </div>
-      </div>
 
-      {/* Mobile nav */}
       {token && menuOpen && (
         <div className="lg:hidden bg-gray-100 px-4 py-4 space-y-4 text-gray-700 font-medium">
           <ul className="flex flex-col gap-4">
@@ -182,6 +179,7 @@ export default function Navbar() {
           </ul>
         </div>
       )}
+      </div>
     </nav>
   );
 }

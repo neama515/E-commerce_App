@@ -6,6 +6,11 @@ const [wishlistProducts, setwishlistProducts] = useState([])
   let token = localStorage.getItem("token");
   
   async function addToWishlist(id) {
+    if (!token) {
+      toast.error("You must be logged in to add items to wishlist");
+      navigate("/login");
+      return;
+    }
     return axios
       .post(
         `https://ecommerce.routemisr.com/api/v1/wishlist`,

@@ -13,7 +13,7 @@ export default function Home() {
 
     const timeout = setTimeout(() => {
       setLoading(false);
-    }, 2000);
+    }, 2100);
 
     return () => clearTimeout(timeout);
   }, []);

@@ -1,5 +1,8 @@
 import axios from 'axios'
 import React, { createContext, useEffect, useState } from 'react'
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+
 export let cart = createContext()
 export default function CartContext({children}) {
   const [cartData, setCartData] = useState("")
@@ -9,6 +12,7 @@ export default function CartContext({children}) {
   const [cartId, setCartId] = useState(0)
     let token = localStorage.getItem("token");
    async function addToCart(id){
+  
       return  axios.post(`https://ecommerce.routemisr.com/api/v1/cart`, {
           productId:id,
         },{

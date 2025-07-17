@@ -20,7 +20,7 @@ import "flowbite";
 import "./index.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import CartContext from "./components/CartContext/CartContext";
-import {Toaster} from "react-hot-toast"
+import { Toaster } from "react-hot-toast";
 import WishList from "./components/WishList/WishList";
 import WishListContext from "./components/WishlistContext/WishlistContext";
 import Payment from "./components/Payment/Payment";
@@ -36,20 +36,11 @@ const router = createHashRouter([
     children: [
       {
         index: true,
-        element: (
-          <ProtectedRoute>
-            <Home />
-          </ProtectedRoute>
-        ),
+        element: <Home />,
       },
       {
         path: "products",
-        element: (
-          <ProtectedRoute>
-            {" "}
-            <Products />
-          </ProtectedRoute>
-        ),
+        element: <Products />,
       },
       {
         path: "cart",
@@ -78,12 +69,7 @@ const router = createHashRouter([
       },
       {
         path: "productDetails/:id",
-        element: (
-          <ProtectedRoute>
-            {" "}
-            <ProductDetails />
-          </ProtectedRoute>
-        ),
+        element: <ProductDetails />,
       },
       {
         path: "wishlist",
@@ -124,7 +110,7 @@ function App() {
   const [count, setCount] = useState(0);
 
   return (
-    <MyContext >
+    <MyContext>
       <CartContext>
         <WishListContext>
           <QueryClientProvider client={client}>

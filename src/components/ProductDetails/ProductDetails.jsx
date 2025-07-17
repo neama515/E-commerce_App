@@ -54,7 +54,7 @@ export default function ProductDetails() {
           />
         </div>
 
-        <div className="space-y-4">
+        <div className="space-y-4  lg:mt-40">
           <h3 className="text-2xl font-bold text-gray-800">{product.title}</h3>
           <p className="text-gray-600">{product.description}</p>
 

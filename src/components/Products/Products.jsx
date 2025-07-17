@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { FaStar } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { cart } from "../CartContext/CartContext";
 import { wishlist } from "../WishlistContext/WishlistContext";
 import { theContext } from "../MyContext/MyContext";
@@ -11,6 +11,14 @@ export default function Products() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const token = localStorage.getItem("token");
+  let navigate = useNavigate();
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const filteredProducts = products.filter((product) =>
+    product.title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const displayProducts = searchTerm ? filteredProducts : products;
 
   const { addToCart, cartData, getUserCart, cartCounter, updateCart } =
     useContext(cart);
@@ -23,7 +31,7 @@ export default function Products() {
   useEffect(() => {
     getProducts();
     getUserCart();
-    getUserWishlist(); 
+    getUserWishlist();
   }, []);
 
   async function getProducts() {
@@ -51,6 +59,11 @@ export default function Products() {
   }
 
   async function addProductToCart(id) {
+    if (!token) {
+      toast.error("You must be logged in to add items to cart");
+      navigate("/login");
+      return;
+    }
     let flag = await addToCart(id);
     const productInCart = cartData?.products.find(
       (item) => item.product._id === id
@@ -69,6 +82,11 @@ export default function Products() {
   }
 
   async function addProductToWishlist(id) {
+    if (!token) {
+      toast.error("You must be logged in to add items to wishlist");
+      navigate("/login");
+      return;
+    }
     const alreadyInWishlist = wishlistProducts.some((item) => item.id === id);
     if (!alreadyInWishlist) {
       const flag = await addToWishlist(id);
@@ -90,76 +108,88 @@ export default function Products() {
           <div className="animate-spin rounded-full h-12 w-12 border-4 border-green-600 border-t-transparent"></div>
         </div>
       ) : (
-        <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-          {products.map((product) => (
-            <div
-              key={product.id}
-              className="text-start p-3 relative overflow-hidden group hover:shadow-lg shadow-green-700 rounded-md bg-white"
-            >
-              <Link to={`/productDetails/${product.id}`}>
-                <img
-                  src={product.imageCover}
-                  alt={product.title}
-                  className="w-full h-80 object-cover rounded"
-                />
-                <h5 className="text-[#4fa74f] mt-2 text-sm">
-                  {product.category.name}
-                </h5>
-                <h3 className="font-semibold text-base">
-                  {product.title.split(" ", 2).join(" ")}
-                </h3>
-                <div className="flex justify-between items-center text-sm mt-1">
-                  {product.priceAfterDiscount ? (
-                    <div>
-                      <span className="line-through text-red-600 mr-1">
-                        {product.price}
-                      </span>
-                      <span>{product.priceAfterDiscount} EGP</span>
-                    </div>
-                  ) : (
-                    <p>{product.price} EGP</p>
-                  )}
-                  <p className="flex items-center gap-1">
-                    <FaStar className="text-yellow-400 text-sm" />
-                    {product.ratingsAverage}
-                  </p>
-                </div>
-                {product.priceAfterDiscount && (
-                  <span className="absolute top-2 right-2 bg-red-600 text-white text-xs px-2 py-1 rounded-full">
-                    Sale
-                  </span>
-                )}
-              </Link>
-
-              <button
-                onClick={() => {
-                  addProductToCart(product.id);
-                  deleteItem(product.id);
-                }}
-                className="translate-y-0 group-hover:translate-y-0 group-hover:text-white group-hover:bg-green-700 border border-green-700 text-green-700 w-full mt-3 py-2 rounded transition-all duration-300  md:translate-y-[200%] lg:translate-y-[200%] md:group-hover:translate-y-0"
+        <>
+          <div className="w-full flex justify-center">
+            <input
+              className="w-[80%] border border-gray-400 rounded-md px-4 py-2 
+             outline-none focus:border-green-600 focus:ring-1 mb-5 focus:ring-green-600"
+              type="text"
+              placeholder="Search products..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>{" "}
+          <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+            {displayProducts.map((product) => (
+              <div
+                key={product.id}
+                className="text-start p-3 relative overflow-hidden group hover:shadow-lg shadow-green-700 rounded-md bg-white"
               >
-                Add to cart
-              </button>
+                <Link to={`/productDetails/${product.id}`}>
+                  <img
+                    src={product.imageCover}
+                    alt={product.title}
+                    className="w-full h-80 object-cover rounded"
+                  />
+                  <h5 className="text-[#4fa74f] mt-2 text-sm">
+                    {product.category.name}
+                  </h5>
+                  <h3 className="font-semibold text-base">
+                    {product.title.split(" ", 2).join(" ")}
+                  </h3>
+                  <div className="flex justify-between items-center text-sm mt-1">
+                    {product.priceAfterDiscount ? (
+                      <div>
+                        <span className="line-through text-red-600 mr-1">
+                          {product.price}
+                        </span>
+                        <span>{product.priceAfterDiscount} EGP</span>
+                      </div>
+                    ) : (
+                      <p>{product.price} EGP</p>
+                    )}
+                    <p className="flex items-center gap-1">
+                      <FaStar className="text-yellow-400 text-sm" />
+                      {product.ratingsAverage}
+                    </p>
+                  </div>
+                  {product.priceAfterDiscount && (
+                    <span className="absolute top-2 right-2 bg-red-600 text-white text-xs px-2 py-1 rounded-full">
+                      Sale
+                    </span>
+                  )}
+                </Link>
 
-              {wishlistProducts.some((w) => w.id === product.id) ? (
-                <i
+                <button
                   onClick={() => {
+                    addProductToCart(product.id);
                     deleteItem(product.id);
-                    toast("Removed from wishlist", { position: "top-right" });
                   }}
-                  className="absolute top-3 left-3 cursor-pointer fa-2x fas fa-heart text-red-500"
-                ></i>
-              ) : (
-                <i
-                  onClick={() => {
-                    addProductToWishlist(product.id);
-                  }}
-                  className="absolute top-3 left-3 cursor-pointer fa-2x fas fa-heart text-gray-400"
-                ></i>
-              )}
-            </div>
-          ))}
-        </div>
+                  className="translate-y-0 group-hover:translate-y-0 group-hover:text-white group-hover:bg-green-700 border border-green-700 text-green-700 w-full mt-3 py-2 rounded transition-all duration-300  md:translate-y-[200%] lg:translate-y-[200%] md:group-hover:translate-y-0"
+                >
+                  Add to cart
+                </button>
+
+                {wishlistProducts.some((w) => w.id === product.id) ? (
+                  <i
+                    onClick={() => {
+                      deleteItem(product.id);
+                      toast("Removed from wishlist", { position: "top-right" });
+                    }}
+                    className="absolute top-3 left-3 cursor-pointer fa-2x fas fa-heart text-red-500"
+                  ></i>
+                ) : (
+                  <i
+                    onClick={() => {
+                      addProductToWishlist(product.id);
+                    }}
+                    className="absolute top-3 left-3 cursor-pointer fa-2x fas fa-heart text-gray-400"
+                  ></i>
+                )}
+              </div>
+            ))}
+          </div>
+        </>
       )}
     </div>
   );
