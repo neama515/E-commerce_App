@@ -56,7 +56,8 @@ export default function Payment() {
           headers: { token },
           params: {
            
-              url: "https://neama515.github.io/E-commerce_App/#",
+              url:window.location.origin
+,
           },
         }
       )
